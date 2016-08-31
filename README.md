@@ -7,4 +7,5 @@ To download the most recent maven artifact go to [Maven Central](http://search.m
 Release | Changes
 --- |  ---
 1.0 | <ul><li>Initial Release</li></ul>
+next | <ul><li>Renamed `MockUtils` to `MoreMockUtils`</li><li>Changed functions in `MoreMockUtils` to accept `ImmutableCollection` rather than `ImmutableList`</li></ul>
 

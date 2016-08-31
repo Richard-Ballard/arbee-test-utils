@@ -17,7 +17,7 @@
 package com.github.richardballard.arbeetestutils.test;
 
 import com.github.richardballard.arbeecoretypes.function.ToBooleanFunction;
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableCollection;
 import net.jcip.annotations.ThreadSafe;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -32,7 +32,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ThreadSafe
-public enum MockUtils {
+public enum MoreMockUtils {
     ;
 
     /**
@@ -65,7 +65,7 @@ public enum MockUtils {
 
     @SuppressWarnings("unchecked")
     @NotNull
-    public static <V> Supplier<V> mockSupplierMultipleAnswers(@NotNull final  ImmutableList<V> values) {
+    public static <V> Supplier<V> mockSupplierMultipleAnswers(@NotNull final ImmutableCollection<V> values) {
         assert values != null;
 
         final Supplier<V> supplier = mock(Supplier.class);
@@ -101,7 +101,7 @@ public enum MockUtils {
     @SuppressWarnings("unchecked")
     @NotNull
     public static <T> ToBooleanFunction<T> mockToBooleanFunctionMultipleAnswers(@NotNull final Class<T> applyClass,
-                                                                                @NotNull final ImmutableList<Boolean> values) {
+                                                                                @NotNull final ImmutableCollection<Boolean> values) {
         assert values != null;
 
         final ToBooleanFunction<T> function = mock(ToBooleanFunction.class);
