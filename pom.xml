@@ -6,7 +6,7 @@
 
     <groupId>com.github.richard-ballard</groupId>
     <artifactId>arbee-test-utils</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <name>Arbee test utils</name>
     <description>A collection of test utilities that I find useful across various projects</description>
