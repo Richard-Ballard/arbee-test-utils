@@ -26,6 +26,7 @@ import org.mockito.AdditionalAnswers;
 
 import java.util.concurrent.Callable;
 import java.util.function.BooleanSupplier;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -151,5 +152,12 @@ public enum MoreMockUtils {
 
         return callable;
     }
+
+    @SuppressWarnings("unchecked")
+    @NotNull
+    public static <T> Consumer<T> mockConsumer() {
+        return mock(Consumer.class);
+    }
+
 
 }
