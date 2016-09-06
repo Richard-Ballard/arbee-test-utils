@@ -6,7 +6,7 @@ To download the most recent maven artifact go to [Maven Central](http://search.m
 ## Release Notes
 Release | Changes
 --- |  ---
-? | <ul><li>Added `MoreMockUtils.mockConsumer`</li></ul>
+1.3 | <ul><li>Added `MoreMockUtils.mockConsumer`</li></ul>
 1.2 | <ul><li>Added `MoreMockUtils.mockCallableSingleAnswer` and friends</li></ul>
 1.1 | <ul><li>Renamed `MockUtils` to `MoreMockUtils`</li><li>Changed functions in `MoreMockUtils` to accept `ImmutableCollection` rather than `ImmutableList`</li></ul>
 1.0 | <ul><li>Initial Release</li></ul>
