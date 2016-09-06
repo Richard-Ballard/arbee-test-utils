@@ -17,12 +17,14 @@
 package com.github.richardballard.arbeetestutils.test;
 
 import com.github.richardballard.arbeecoretypes.function.ToBooleanFunction;
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableCollection;
 import net.jcip.annotations.ThreadSafe;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.mockito.AdditionalAnswers;
 
+import java.util.concurrent.Callable;
 import java.util.function.BooleanSupplier;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -111,4 +113,43 @@ public enum MoreMockUtils {
 
         return function;
     }
+
+    @SuppressWarnings("unchecked")
+    @NotNull
+    public static <T> Callable<T> mockCallableSingleAnswer(@NotNull final T value) {
+        assert value != null;
+
+        final Callable<T> callable = mock(Callable.class);
+
+        try {
+            when(callable.call())
+                    .thenReturn(value);
+        }
+        catch(final Exception exc) {
+            // shouldn't happen - keeping compiler happy - RMB 2016/6/19
+            throw Throwables.propagate(exc);
+        }
+
+        return callable;
+    }
+
+    @SuppressWarnings("unchecked")
+    @NotNull
+    public static <T> Callable<T> mockCallableMultipleAnswers(@NotNull final ImmutableCollection<T> values) {
+        assert values != null;
+
+        final Callable<T> callable = mock(Callable.class);
+
+        try {
+            when(callable.call())
+                    .thenAnswer(AdditionalAnswers.returnsElementsOf(values));
+        }
+        catch(final Exception exc) {
+            // shouldn't happen - keeping compiler happy - RMB 2016/6/19
+            throw Throwables.propagate(exc);
+        }
+
+        return callable;
+    }
+
 }
