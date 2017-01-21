@@ -165,7 +165,8 @@ public enum MoreMockUtils {
         }
         catch(final Exception exc) {
             // shouldn't happen - keeping compiler happy - RMB 2016/6/19
-            throw Throwables.propagate(exc);
+            Throwables.throwIfUnchecked(exc);
+            throw new RuntimeException(exc);
         }
 
         return callable;
@@ -184,7 +185,8 @@ public enum MoreMockUtils {
         }
         catch(final Exception exc) {
             // shouldn't happen - keeping compiler happy - RMB 2016/6/19
-            throw Throwables.propagate(exc);
+            Throwables.throwIfUnchecked(exc);
+            throw new RuntimeException(exc);
         }
 
         return callable;
