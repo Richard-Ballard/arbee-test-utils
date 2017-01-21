@@ -22,7 +22,7 @@ import com.google.common.collect.ImmutableCollection;
 import net.jcip.annotations.ThreadSafe;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.mockito.AdditionalAnswers;
+import org.mockito.stubbing.Answer;
 
 import java.util.concurrent.Callable;
 import java.util.function.BooleanSupplier;
@@ -30,6 +30,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import static org.mockito.AdditionalAnswers.returnsElementsOf;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -49,8 +50,35 @@ public enum MoreMockUtils {
 
         final Function<K, V> function = mock(Function.class);
 
+        when(function.apply(null))
+                .thenReturn(value);
+
         when(function.apply(any(keyClass)))
                 .thenReturn(value);
+
+        return function;
+    }
+
+    /**
+     * Returns a mock function that returns the elements of {@code values}.
+     */
+    @SuppressWarnings("unchecked")
+    @NotNull
+    public static <K, V> Function<K, V> mockFunctionMultipleAnswers(@NotNull final Class<? extends K> keyClass,
+                                                                    @NotNull final ImmutableCollection<V> values) {
+        assert keyClass != null;
+        assert values != null;
+
+        final Function<K, V> function = mock(Function.class);
+
+        // have the same answer instance so both calls return from the next list position
+        final Answer<Object> answer = returnsElementsOf(values);
+
+        when(function.apply(null))
+                .thenAnswer(answer);
+
+        when(function.apply(any(keyClass)))
+                .thenAnswer(answer);
 
         return function;
     }
@@ -74,7 +102,7 @@ public enum MoreMockUtils {
         final Supplier<V> supplier = mock(Supplier.class);
 
         when(supplier.get())
-                .thenAnswer(AdditionalAnswers.returnsElementsOf(values));
+                .thenAnswer(returnsElementsOf(values));
 
         return supplier;
     }
@@ -95,6 +123,9 @@ public enum MoreMockUtils {
                                                                              final boolean value) {
         final ToBooleanFunction<T> function = mock(ToBooleanFunction.class);
 
+        when(function.applyAsBoolean(null))
+                .thenReturn(value);
+
         when(function.applyAsBoolean(any(applyClass)))
                 .thenReturn(value);
 
@@ -109,8 +140,14 @@ public enum MoreMockUtils {
 
         final ToBooleanFunction<T> function = mock(ToBooleanFunction.class);
 
+        // have the same answer instance so both calls return from the next list position
+        final Answer<Object> answer = returnsElementsOf(values);
+
+        when(function.applyAsBoolean(null))
+                .thenAnswer(answer);
+
         when(function.applyAsBoolean(any(applyClass)))
-                .thenAnswer(AdditionalAnswers.returnsElementsOf(values));
+                .thenAnswer(answer);
 
         return function;
     }
@@ -143,7 +180,7 @@ public enum MoreMockUtils {
 
         try {
             when(callable.call())
-                    .thenAnswer(AdditionalAnswers.returnsElementsOf(values));
+                    .thenAnswer(returnsElementsOf(values));
         }
         catch(final Exception exc) {
             // shouldn't happen - keeping compiler happy - RMB 2016/6/19
