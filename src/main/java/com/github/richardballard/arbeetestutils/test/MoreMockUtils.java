@@ -22,7 +22,6 @@ import com.google.common.collect.ImmutableCollection;
 import net.jcip.annotations.ThreadSafe;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.mockito.stubbing.Answer;
 
 import java.util.concurrent.Callable;
 import java.util.function.BooleanSupplier;
@@ -50,10 +49,7 @@ public enum MoreMockUtils {
 
         final Function<K, V> function = mock(Function.class);
 
-        when(function.apply(null))
-                .thenReturn(value);
-
-        when(function.apply(any(keyClass)))
+        when(function.apply(any()))
                 .thenReturn(value);
 
         return function;
@@ -71,14 +67,8 @@ public enum MoreMockUtils {
 
         final Function<K, V> function = mock(Function.class);
 
-        // have the same answer instance so both calls return from the next list position
-        final Answer<Object> answer = returnsElementsOf(values);
-
-        when(function.apply(null))
-                .thenAnswer(answer);
-
-        when(function.apply(any(keyClass)))
-                .thenAnswer(answer);
+        when(function.apply(any()))
+                .thenAnswer(returnsElementsOf(values));
 
         return function;
     }
@@ -123,10 +113,7 @@ public enum MoreMockUtils {
                                                                              final boolean value) {
         final ToBooleanFunction<T> function = mock(ToBooleanFunction.class);
 
-        when(function.applyAsBoolean(null))
-                .thenReturn(value);
-
-        when(function.applyAsBoolean(any(applyClass)))
+        when(function.applyAsBoolean(any()))
                 .thenReturn(value);
 
         return function;
@@ -140,14 +127,8 @@ public enum MoreMockUtils {
 
         final ToBooleanFunction<T> function = mock(ToBooleanFunction.class);
 
-        // have the same answer instance so both calls return from the next list position
-        final Answer<Object> answer = returnsElementsOf(values);
-
-        when(function.applyAsBoolean(null))
-                .thenAnswer(answer);
-
-        when(function.applyAsBoolean(any(applyClass)))
-                .thenAnswer(answer);
+        when(function.applyAsBoolean(any()))
+                .thenAnswer(returnsElementsOf(values));
 
         return function;
     }
