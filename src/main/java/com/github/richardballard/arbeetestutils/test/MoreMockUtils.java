@@ -28,6 +28,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
 import static org.mockito.AdditionalAnswers.returnsElementsOf;
 import static org.mockito.ArgumentMatchers.any;
@@ -37,6 +38,36 @@ import static org.mockito.Mockito.when;
 @ThreadSafe
 public enum MoreMockUtils {
     ;
+
+    /**
+     * Returns a mock unary operator that always returns {@code value}.
+     */
+    @SuppressWarnings("unchecked")
+    @NotNull
+    public static <E> UnaryOperator<E> mockUnaryOperatorSingleAnswer(@Nullable final E value) {
+        final UnaryOperator<E> operator = mock(UnaryOperator.class);
+
+        when(operator.apply(any()))
+                .thenReturn(value);
+
+        return operator;
+    }
+
+    /**
+     * Returns a mock unary operator that returns the elements of {@code values}.
+     */
+    @SuppressWarnings("unchecked")
+    @NotNull
+    public static <E> UnaryOperator<E> mockUnaryOperatorMultipleAnswers(@NotNull final ImmutableCollection<E> values) {
+        assert values != null;
+
+        final UnaryOperator<E> operator = mock(UnaryOperator.class);
+
+        when(operator.apply(any()))
+                .thenAnswer(returnsElementsOf(values));
+
+        return operator;
+    }
 
     /**
      * Returns a mock function that always returns {@code value}.
