@@ -43,14 +43,13 @@ import org.testng.TestListenerAdapter;
  *      &lt;/configuration&gt;
  *  &lt;/plugin&gt;
  * </pre></blockquote> 
- * 
+ *
  */
 public class FailOnSkipTestListenerAdapter extends TestListenerAdapter {
 
-    @Override
-    public void onTestSkipped(@NotNull final ITestResult tr) {
-        assert tr != null;
+  @Override
+  public void onTestSkipped(@NotNull final ITestResult tr) {
 
-        tr.setStatus(ITestResult.FAILURE);
-    }
+    tr.setStatus(ITestResult.FAILURE);
+  }
 }

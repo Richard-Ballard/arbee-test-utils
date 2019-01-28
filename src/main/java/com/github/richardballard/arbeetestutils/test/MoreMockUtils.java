@@ -18,8 +18,8 @@ package com.github.richardballard.arbeetestutils.test;
 
 import com.github.richardballard.arbeecoretypes.function.ToBooleanFunction;
 import com.google.common.base.Throwables;
-import com.google.common.collect.ImmutableCollection;
 import net.jcip.annotations.ThreadSafe;
+import org.assertj.core.util.Lists;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,178 +37,182 @@ import static org.mockito.Mockito.when;
 
 @ThreadSafe
 public enum MoreMockUtils {
-    ;
+  ;
 
-    /**
-     * Returns a mock unary operator that always returns {@code value}.
-     */
-    @SuppressWarnings("unchecked")
-    @NotNull
-    public static <E> UnaryOperator<E> mockUnaryOperatorSingleAnswer(@Nullable final E value) {
-        final UnaryOperator<E> operator = mock(UnaryOperator.class);
+  /**
+   * Returns a mock unary operator that always returns {@code value}.
+   */
+  @SuppressWarnings("unchecked")
+  @NotNull
+  public static <E> UnaryOperator<E> mockUnaryOperatorSingleAnswer(@Nullable final E value) {
+    final UnaryOperator<E> operator = mock(UnaryOperator.class);
 
-        when(operator.apply(any()))
-                .thenReturn(value);
+    when(operator.apply(any()))
+        .thenReturn(value);
 
-        return operator;
+    return operator;
+  }
+
+  /**
+   * Returns a mock unary operator that returns the elements of {@code values}.
+   */
+  @SuppressWarnings("unchecked")
+  @NotNull
+  public static <E> UnaryOperator<E> mockUnaryOperatorMultipleAnswers(@NotNull final Iterable<E> values) {
+
+    final UnaryOperator<E> operator = mock(UnaryOperator.class);
+
+    when(operator.apply(any()))
+        .thenAnswer(returnsElementsOf(Lists.newArrayList(values)));
+
+    return operator;
+  }
+
+  /**
+   * Returns a mock function that always returns {@code value}.
+   */
+  @SuppressWarnings("unchecked")
+  @NotNull
+  public static <K, V> Function<K, V> mockFunctionSingleAnswer(@NotNull final Class<? extends K> keyClass,
+                                                               @Nullable final V value) {
+
+    final Function<K, V> function = mock(Function.class);
+
+    when(function.apply(any()))
+        .thenReturn(value);
+
+    return function;
+  }
+
+  /**
+   * Returns a mock function that returns the elements of {@code values}.
+   */
+  @SuppressWarnings("unchecked")
+  @NotNull
+  public static <K, V> Function<K, V> mockFunctionMultipleAnswers(@NotNull final Class<? extends K> keyClass,
+                                                                  @NotNull final Iterable<V> values) {
+
+    final Function<K, V> function = mock(Function.class);
+
+    when(function.apply(any()))
+        .thenAnswer(returnsElementsOf(Lists.newArrayList(values)));
+
+    return function;
+  }
+
+  @SuppressWarnings("unchecked")
+  @NotNull
+  public static <V> Supplier<V> mockSupplierSingleAnswer(@Nullable final V value) {
+    final Supplier<V> supplier = mock(Supplier.class);
+
+    when(supplier.get())
+        .thenReturn(value);
+
+    return supplier;
+  }
+
+  @SuppressWarnings("unchecked")
+  @NotNull
+  public static <V> Supplier<V> mockSupplierMultipleAnswers(@NotNull final Iterable<V> values) {
+
+    final Supplier<V> supplier = mock(Supplier.class);
+
+    when(supplier.get())
+        .thenAnswer(returnsElementsOf(Lists.newArrayList(values)));
+
+    return supplier;
+  }
+
+  @NotNull
+  public static BooleanSupplier mockBooleanSupplierSingleAnswer(final boolean value) {
+    final BooleanSupplier supplier = mock(BooleanSupplier.class);
+
+    when(supplier.getAsBoolean())
+        .thenReturn(value);
+
+    return supplier;
+  }
+
+  @SuppressWarnings("unchecked")
+  @NotNull
+  public static BooleanSupplier mockBooleanSupplierMultipleAnswers(@NotNull final Iterable<Boolean> values) {
+
+    final BooleanSupplier supplier = mock(BooleanSupplier.class);
+
+    when(supplier.getAsBoolean())
+        .thenAnswer(returnsElementsOf(Lists.newArrayList(values)));
+
+    return supplier;
+  }
+
+  @SuppressWarnings("unchecked")
+  @NotNull
+  public static <T> ToBooleanFunction<T> mockToBooleanFunctionSingleAnswer(@NotNull final Class<T> applyClass,
+                                                                           final boolean value) {
+    final ToBooleanFunction<T> function = mock(ToBooleanFunction.class);
+
+    when(function.applyAsBoolean(any()))
+        .thenReturn(value);
+
+    return function;
+  }
+
+  @SuppressWarnings("unchecked")
+  @NotNull
+  public static <T> ToBooleanFunction<T> mockToBooleanFunctionMultipleAnswers(@NotNull final Class<T> applyClass,
+                                                                              @NotNull final Iterable<Boolean> values) {
+
+    final ToBooleanFunction<T> function = mock(ToBooleanFunction.class);
+
+    when(function.applyAsBoolean(any()))
+        .thenAnswer(returnsElementsOf(Lists.newArrayList(values)));
+
+    return function;
+  }
+
+  @SuppressWarnings("unchecked")
+  @NotNull
+  public static <T> Callable<T> mockCallableSingleAnswer(@Nullable final T value) {
+
+    final Callable<T> callable = mock(Callable.class);
+
+    try {
+      when(callable.call())
+          .thenReturn(value);
+    }
+    catch(final Exception exc) {
+      // shouldn't happen - keeping compiler happy - RMB 2016/6/19
+      Throwables.throwIfUnchecked(exc);
+      throw new RuntimeException(exc);
     }
 
-    /**
-     * Returns a mock unary operator that returns the elements of {@code values}.
-     */
-    @SuppressWarnings("unchecked")
-    @NotNull
-    public static <E> UnaryOperator<E> mockUnaryOperatorMultipleAnswers(@NotNull final ImmutableCollection<E> values) {
-        assert values != null;
+    return callable;
+  }
 
-        final UnaryOperator<E> operator = mock(UnaryOperator.class);
+  @SuppressWarnings("unchecked")
+  @NotNull
+  public static <T> Callable<T> mockCallableMultipleAnswers(@NotNull final Iterable<T> values) {
 
-        when(operator.apply(any()))
-                .thenAnswer(returnsElementsOf(values));
+    final Callable<T> callable = mock(Callable.class);
 
-        return operator;
+    try {
+      when(callable.call())
+          .thenAnswer(returnsElementsOf(Lists.newArrayList(values)));
+    }
+    catch(final Exception exc) {
+      // shouldn't happen - keeping compiler happy - RMB 2016/6/19
+      Throwables.throwIfUnchecked(exc);
+      throw new RuntimeException(exc);
     }
 
-    /**
-     * Returns a mock function that always returns {@code value}.
-     */
-    @SuppressWarnings("unchecked")
-    @NotNull
-    public static <K, V> Function<K, V> mockFunctionSingleAnswer(@NotNull final Class<? extends K> keyClass,
-                                                                 @Nullable final V value) {
-        assert keyClass != null;
+    return callable;
+  }
 
-        final Function<K, V> function = mock(Function.class);
-
-        when(function.apply(any()))
-                .thenReturn(value);
-
-        return function;
-    }
-
-    /**
-     * Returns a mock function that returns the elements of {@code values}.
-     */
-    @SuppressWarnings("unchecked")
-    @NotNull
-    public static <K, V> Function<K, V> mockFunctionMultipleAnswers(@NotNull final Class<? extends K> keyClass,
-                                                                    @NotNull final ImmutableCollection<V> values) {
-        assert keyClass != null;
-        assert values != null;
-
-        final Function<K, V> function = mock(Function.class);
-
-        when(function.apply(any()))
-                .thenAnswer(returnsElementsOf(values));
-
-        return function;
-    }
-
-    @SuppressWarnings("unchecked")
-    @NotNull
-    public static <V> Supplier<V> mockSupplierSingleAnswer(@Nullable final V value) {
-        final Supplier<V> supplier = mock(Supplier.class);
-
-        when(supplier.get())
-                .thenReturn(value);
-
-        return supplier;
-    }
-
-    @SuppressWarnings("unchecked")
-    @NotNull
-    public static <V> Supplier<V> mockSupplierMultipleAnswers(@NotNull final ImmutableCollection<V> values) {
-        assert values != null;
-
-        final Supplier<V> supplier = mock(Supplier.class);
-
-        when(supplier.get())
-                .thenAnswer(returnsElementsOf(values));
-
-        return supplier;
-    }
-
-    @NotNull
-    public static BooleanSupplier mockBooleanSupplierSingleAnswer(final boolean value) {
-        final BooleanSupplier supplier = mock(BooleanSupplier.class);
-
-        when(supplier.getAsBoolean())
-                .thenReturn(value);
-
-        return supplier;
-    }
-
-    @SuppressWarnings("unchecked")
-    @NotNull
-    public static <T> ToBooleanFunction<T> mockToBooleanFunctionSingleAnswer(@NotNull final Class<T> applyClass,
-                                                                             final boolean value) {
-        final ToBooleanFunction<T> function = mock(ToBooleanFunction.class);
-
-        when(function.applyAsBoolean(any()))
-                .thenReturn(value);
-
-        return function;
-    }
-
-    @SuppressWarnings("unchecked")
-    @NotNull
-    public static <T> ToBooleanFunction<T> mockToBooleanFunctionMultipleAnswers(@NotNull final Class<T> applyClass,
-                                                                                @NotNull final ImmutableCollection<Boolean> values) {
-        assert values != null;
-
-        final ToBooleanFunction<T> function = mock(ToBooleanFunction.class);
-
-        when(function.applyAsBoolean(any()))
-                .thenAnswer(returnsElementsOf(values));
-
-        return function;
-    }
-
-    @SuppressWarnings("unchecked")
-    @NotNull
-    public static <T> Callable<T> mockCallableSingleAnswer(@NotNull final T value) {
-        assert value != null;
-
-        final Callable<T> callable = mock(Callable.class);
-
-        try {
-            when(callable.call())
-                    .thenReturn(value);
-        }
-        catch(final Exception exc) {
-            // shouldn't happen - keeping compiler happy - RMB 2016/6/19
-            Throwables.throwIfUnchecked(exc);
-            throw new RuntimeException(exc);
-        }
-
-        return callable;
-    }
-
-    @SuppressWarnings("unchecked")
-    @NotNull
-    public static <T> Callable<T> mockCallableMultipleAnswers(@NotNull final ImmutableCollection<T> values) {
-        assert values != null;
-
-        final Callable<T> callable = mock(Callable.class);
-
-        try {
-            when(callable.call())
-                    .thenAnswer(returnsElementsOf(values));
-        }
-        catch(final Exception exc) {
-            // shouldn't happen - keeping compiler happy - RMB 2016/6/19
-            Throwables.throwIfUnchecked(exc);
-            throw new RuntimeException(exc);
-        }
-
-        return callable;
-    }
-
-    @SuppressWarnings("unchecked")
-    @NotNull
-    public static <T> Consumer<T> mockConsumer() {
-        return mock(Consumer.class);
-    }
+  @SuppressWarnings("unchecked")
+  @NotNull
+  public static <T> Consumer<T> mockConsumer() {
+    return mock(Consumer.class);
+  }
 
 
 }

@@ -6,6 +6,7 @@ To download the most recent maven artifact go to [Maven Central](http://search.m
 ## Release Notes
 Release | Changes
 --- |  ---
+2.0-SNAPSHOT | <ul><li>Updated 3rd party library versions</li><li>MoreMockUtils now takes Iterable</li></ul>
 1.6 | <ul><li>Now using 'org.mockito.ArgumentMatchers.any()' on calls to mock functions</li><li>Added `MoreMockUtils.mockUnaryOperatorSingleAnswer` and friends</li><li>Updated 3rd party library versions</li></ul>
 1.5 | <ul><li>Updated 3rd party library versions</li><li>Added `MoreMockUtils.mockFunctionMultipleAnswers`</li></ul>
 1.4 | <ul><li>Updated 3rd party library versions</li></ul>
