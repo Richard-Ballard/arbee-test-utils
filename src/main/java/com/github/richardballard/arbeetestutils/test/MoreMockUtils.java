@@ -35,6 +35,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@SuppressWarnings("unused")
 @ThreadSafe
 public enum MoreMockUtils {
   ;
@@ -43,8 +44,7 @@ public enum MoreMockUtils {
    * Returns a mock unary operator that always returns {@code value}.
    */
   @SuppressWarnings("unchecked")
-  @NotNull
-  public static <E> UnaryOperator<E> mockUnaryOperatorSingleAnswer(@Nullable final E value) {
+  public static @NotNull <E> UnaryOperator<E> mockUnaryOperatorSingleAnswer(final @Nullable E value) {
     final UnaryOperator<E> operator = mock(UnaryOperator.class);
 
     when(operator.apply(any()))
@@ -57,8 +57,7 @@ public enum MoreMockUtils {
    * Returns a mock unary operator that returns the elements of {@code values}.
    */
   @SuppressWarnings("unchecked")
-  @NotNull
-  public static <E> UnaryOperator<E> mockUnaryOperatorMultipleAnswers(@NotNull final Iterable<E> values) {
+  public static @NotNull <E> UnaryOperator<E> mockUnaryOperatorMultipleAnswers(final @NotNull Iterable<E> values) {
 
     final UnaryOperator<E> operator = mock(UnaryOperator.class);
 
@@ -72,9 +71,8 @@ public enum MoreMockUtils {
    * Returns a mock function that always returns {@code value}.
    */
   @SuppressWarnings("unchecked")
-  @NotNull
-  public static <K, V> Function<K, V> mockFunctionSingleAnswer(@NotNull final Class<? extends K> keyClass,
-                                                               @Nullable final V value) {
+  public static @NotNull <K, V> Function<K, V> mockFunctionSingleAnswer(final @NotNull Class<? extends K> keyClass,
+                                                                        final @Nullable V value) {
 
     final Function<K, V> function = mock(Function.class);
 
@@ -88,9 +86,8 @@ public enum MoreMockUtils {
    * Returns a mock function that returns the elements of {@code values}.
    */
   @SuppressWarnings("unchecked")
-  @NotNull
-  public static <K, V> Function<K, V> mockFunctionMultipleAnswers(@NotNull final Class<? extends K> keyClass,
-                                                                  @NotNull final Iterable<V> values) {
+  public static @NotNull <K, V> Function<K, V> mockFunctionMultipleAnswers(final @NotNull Class<? extends K> keyClass,
+                                                                           final @NotNull Iterable<V> values) {
 
     final Function<K, V> function = mock(Function.class);
 
@@ -101,8 +98,7 @@ public enum MoreMockUtils {
   }
 
   @SuppressWarnings("unchecked")
-  @NotNull
-  public static <V> Supplier<V> mockSupplierSingleAnswer(@Nullable final V value) {
+  public static @NotNull <V> Supplier<V> mockSupplierSingleAnswer(final @Nullable V value) {
     final Supplier<V> supplier = mock(Supplier.class);
 
     when(supplier.get())
@@ -112,8 +108,7 @@ public enum MoreMockUtils {
   }
 
   @SuppressWarnings("unchecked")
-  @NotNull
-  public static <V> Supplier<V> mockSupplierMultipleAnswers(@NotNull final Iterable<V> values) {
+  public static @NotNull <V> Supplier<V> mockSupplierMultipleAnswers(final @NotNull Iterable<V> values) {
 
     final Supplier<V> supplier = mock(Supplier.class);
 
@@ -123,8 +118,7 @@ public enum MoreMockUtils {
     return supplier;
   }
 
-  @NotNull
-  public static BooleanSupplier mockBooleanSupplierSingleAnswer(final boolean value) {
+  public static @NotNull BooleanSupplier mockBooleanSupplierSingleAnswer(final boolean value) {
     final BooleanSupplier supplier = mock(BooleanSupplier.class);
 
     when(supplier.getAsBoolean())
@@ -133,9 +127,7 @@ public enum MoreMockUtils {
     return supplier;
   }
 
-  @SuppressWarnings("unchecked")
-  @NotNull
-  public static BooleanSupplier mockBooleanSupplierMultipleAnswers(@NotNull final Iterable<Boolean> values) {
+  public static @NotNull BooleanSupplier mockBooleanSupplierMultipleAnswers(final @NotNull Iterable<Boolean> values) {
 
     final BooleanSupplier supplier = mock(BooleanSupplier.class);
 
@@ -146,9 +138,8 @@ public enum MoreMockUtils {
   }
 
   @SuppressWarnings("unchecked")
-  @NotNull
-  public static <T> ToBooleanFunction<T> mockToBooleanFunctionSingleAnswer(@NotNull final Class<T> applyClass,
-                                                                           final boolean value) {
+  public static @NotNull <T> ToBooleanFunction<T> mockToBooleanFunctionSingleAnswer(final @NotNull Class<T> applyClass,
+                                                                                    final boolean value) {
     final ToBooleanFunction<T> function = mock(ToBooleanFunction.class);
 
     when(function.applyAsBoolean(any()))
@@ -158,9 +149,9 @@ public enum MoreMockUtils {
   }
 
   @SuppressWarnings("unchecked")
-  @NotNull
-  public static <T> ToBooleanFunction<T> mockToBooleanFunctionMultipleAnswers(@NotNull final Class<T> applyClass,
-                                                                              @NotNull final Iterable<Boolean> values) {
+  public static @NotNull <T> ToBooleanFunction<T> mockToBooleanFunctionMultipleAnswers(
+      final @NotNull Class<T> applyClass,
+      final @NotNull Iterable<Boolean> values) {
 
     final ToBooleanFunction<T> function = mock(ToBooleanFunction.class);
 
@@ -171,8 +162,7 @@ public enum MoreMockUtils {
   }
 
   @SuppressWarnings("unchecked")
-  @NotNull
-  public static <T> Callable<T> mockCallableSingleAnswer(@Nullable final T value) {
+  public static @NotNull <T> Callable<T> mockCallableSingleAnswer(final @Nullable T value) {
 
     final Callable<T> callable = mock(Callable.class);
 
@@ -190,8 +180,7 @@ public enum MoreMockUtils {
   }
 
   @SuppressWarnings("unchecked")
-  @NotNull
-  public static <T> Callable<T> mockCallableMultipleAnswers(@NotNull final Iterable<T> values) {
+  public static @NotNull <T> Callable<T> mockCallableMultipleAnswers(final @NotNull Iterable<T> values) {
 
     final Callable<T> callable = mock(Callable.class);
 
@@ -209,10 +198,7 @@ public enum MoreMockUtils {
   }
 
   @SuppressWarnings("unchecked")
-  @NotNull
-  public static <T> Consumer<T> mockConsumer() {
+  public static @NotNull <T> Consumer<T> mockConsumer() {
     return mock(Consumer.class);
   }
-
-
 }

@@ -21,8 +21,9 @@ import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 
 /**
- * This class is based on code from http://rolf-engelhard.de/2011/10/fail-instead-of-skip-a-test-when-testngs-dataprovider-throws-an-exception/
- * <p/>
+ * This class is based on code from
+ * http://rolf-engelhard.de/2011/10/fail-instead-of-skip-a-test-when-testngs-dataprovider-throws-an-exception/
+ * </p>
  * By Adding it to your surefire config any tests that throw an exception on test setup will be marked as failures.
  * <p/>
  * It is referenced as a listener from pom.xml - specifically the surefire config, e.g.
@@ -48,7 +49,7 @@ import org.testng.TestListenerAdapter;
 public class FailOnSkipTestListenerAdapter extends TestListenerAdapter {
 
   @Override
-  public void onTestSkipped(@NotNull final ITestResult tr) {
+  public void onTestSkipped(final @NotNull ITestResult tr) {
 
     tr.setStatus(ITestResult.FAILURE);
   }
